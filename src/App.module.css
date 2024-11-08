@@ -1,0 +1,12 @@
+.button {
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-weight: bold;
+  transition: bottom 0.3s;
+}
