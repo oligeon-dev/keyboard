@@ -39,6 +39,7 @@ function App() {
     <div>
       <input
         type="text"
+        style={{ fontSize: "1rem" }}
         onClick={(event) => {
           const viewport = event.target as VisualViewport;
           const viewportHeight = viewport.height;
