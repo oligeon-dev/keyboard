@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import styles from "./App.module.css";
 
@@ -19,7 +19,7 @@ function App() {
     const handleResizeForAndroid = (event: Event) => {
       const viewport = event.target as VisualViewport;
       const viewportHeight = viewport.height;
-      const keyboardHeight = screen.availHeight - viewportHeight;
+      const keyboardHeight = window.innerHeight - viewportHeight;
       const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
       (button as HTMLElement).style.bottom = bottomValue;
     };
@@ -33,9 +33,19 @@ function App() {
       visualViewport?.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const [vh, setVh] = useState(0);
   return (
     <div>
-      <input type="text" />
+      <input
+        type="text"
+        onClick={(event) => {
+          const viewport = event.target as VisualViewport;
+          const viewportHeight = viewport.height;
+          setVh(viewportHeight);
+        }}
+      />
+      <p>viewport height: ${vh}</p>
       <button className={styles.button}>sample button</button>
     </div>
   );
