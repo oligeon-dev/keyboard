@@ -5,7 +5,7 @@ import styles from "./App.module.css";
 function App() {
   useEffect(() => {
     // if (!/iPhone|iPad|iPod/.test(navigator.userAgent)) return;
-    const isIOS = !/iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
 
     const button = document.querySelector(`.${styles.button}`);
     if (!button) return;
