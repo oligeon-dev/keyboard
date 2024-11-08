@@ -36,7 +36,7 @@ function App() {
     };
   }, []);
 
-  const [vh, setVh] = useState(0);
+  const [vh, setVh] = useState(1);
   return (
     <div>
       <input
