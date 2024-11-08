@@ -1,39 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import styles from "./App.module.css";
 
 function App() {
-  const [_, setIsKeyboardVisible] = useState(false);
-
   useEffect(() => {
+    // if (!/iPhone|iPad|iPod/.test(navigator.userAgent)) return;
+    const isIOS = !/iPhone|iPad|iPod/.test(navigator.userAgent);
+
     const button = document.querySelector(`.${styles.button}`);
     if (!button) return;
 
-    const initialHeight = window.innerHeight;
-
-    const handleResize = () => {
-      const currentHeight = window.innerHeight;
-      if (currentHeight < initialHeight) {
-        // キーボードが表示されている
-        setIsKeyboardVisible(true);
-        (button as HTMLElement).style.bottom = `${
-          initialHeight - currentHeight
-        }px`;
-      } else {
-        // キーボードが非表示
-        setIsKeyboardVisible(false);
-        (button as HTMLElement).style.bottom = "";
-      }
+    const handleResizeForIos = (event: Event) => {
+      const viewport = event.target as VisualViewport;
+      const keyboardHeight = window.innerHeight - viewport.height;
+      const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
+      (button as HTMLElement).style.bottom = bottomValue;
+    };
+    const handleResizeForAndroid = (event: Event) => {
+      const viewport = event.target as VisualViewport;
+      const viewportHeight = viewport.height;
+      const keyboardHeight = window.innerHeight - viewportHeight;
+      const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
+      (button as HTMLElement).style.bottom = bottomValue;
     };
 
-    window.addEventListener("resize", handleResize);
+    const handleResize = isIOS ? handleResizeForIos : handleResizeForAndroid;
+
+    visualViewport?.addEventListener("resize", handleResize);
 
     // クリーンアップ関数
     return () => {
-      window.removeEventListener("resize", handleResize);
+      visualViewport?.removeEventListener("resize", handleResize);
     };
   }, []);
-
   return (
     <div>
       <input type="text" />
