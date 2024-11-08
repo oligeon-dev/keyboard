@@ -22,6 +22,7 @@ function App() {
       const keyboardHeight = window.innerHeight - viewportHeight;
       const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
       (button as HTMLElement).style.bottom = bottomValue;
+      document.body.style.minHeight = `${viewportHeight}`;
     };
 
     const handleResize = isIOS ? handleResizeForIos : handleResizeForAndroid;
