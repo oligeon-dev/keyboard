@@ -1,28 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import styles from "./App.module.css";
 
 function App() {
-  useEffect(() => {
-    if (!/iPhone|iPad|iPod/.test(navigator.userAgent)) return;
+  const [_, setIsKeyboardVisible] = useState(false);
 
+  useEffect(() => {
     const button = document.querySelector(`.${styles.button}`);
     if (!button) return;
 
-    const handleResize = (event: Event) => {
-      const viewport = event.target as VisualViewport;
-      const keyboardHeight = window.innerHeight - viewport.height;
-      const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
-      (button as HTMLElement).style.bottom = bottomValue;
+    const initialHeight = window.innerHeight;
+
+    const handleResize = () => {
+      const currentHeight = window.innerHeight;
+      if (currentHeight < initialHeight) {
+        // キーボードが表示されている
+        setIsKeyboardVisible(true);
+        (button as HTMLElement).style.bottom = `${
+          initialHeight - currentHeight
+        }px`;
+      } else {
+        // キーボードが非表示
+        setIsKeyboardVisible(false);
+        (button as HTMLElement).style.bottom = "";
+      }
     };
 
-    visualViewport?.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize);
 
     // クリーンアップ関数
     return () => {
-      visualViewport?.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <div>
       <input type="text" />
