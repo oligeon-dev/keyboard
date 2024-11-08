@@ -3,36 +3,51 @@ import "./App.css";
 import styles from "./App.module.css";
 
 function App() {
+  // useEffect(() => {
+  //   // if (!/iPhone|iPad|iPod/.test(navigator.userAgent)) return;
+  //   const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+
+  //   const button = document.querySelector(`.${styles.button}`);
+  //   if (!button) return;
+
+  //   const handleResizeForIos = (event: Event) => {
+  //     const viewport = event.target as VisualViewport;
+  //     const keyboardHeight = window.innerHeight - viewport.height;
+  //     const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
+  //     (button as HTMLElement).style.bottom = bottomValue;
+  //   };
+  //   const handleResizeForAndroid = (event: Event) => {
+  //     const viewport = event.target as VisualViewport;
+  //     const viewportHeight = viewport.height;
+  //     const keyboardHeight = window.innerHeight - viewportHeight;
+  //     const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
+  //     (button as HTMLElement).style.bottom = bottomValue;
+  //     document.body.style.maxHeight =
+  //       keyboardHeight === 0 ? "" : `${viewportHeight}px`;
+  //   };
+
+  //   const handleResize = isIOS ? handleResizeForIos : handleResizeForAndroid;
+
+  //   visualViewport?.addEventListener("resize", handleResize);
+
+  //   // クリーンアップ関数
+  //   return () => {
+  //     visualViewport?.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    // if (!/iPhone|iPad|iPod/.test(navigator.userAgent)) return;
-    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-
-    const button = document.querySelector(`.${styles.button}`);
-    if (!button) return;
-
-    const handleResizeForIos = (event: Event) => {
-      const viewport = event.target as VisualViewport;
-      const keyboardHeight = window.innerHeight - viewport.height;
-      const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
-      (button as HTMLElement).style.bottom = bottomValue;
-    };
-    const handleResizeForAndroid = (event: Event) => {
-      const viewport = event.target as VisualViewport;
-      const viewportHeight = viewport.height;
-      const keyboardHeight = window.innerHeight - viewportHeight;
-      const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
-      (button as HTMLElement).style.bottom = bottomValue;
-      document.body.style.maxHeight =
-        keyboardHeight === 0 ? "" : `${viewportHeight}px`;
+    const handleResize = () => {
+      const footer = document.getElementById("footer");
+      if (footer) {
+        footer.style.bottom = `${window.visualViewport?.offsetTop}px`;
+      }
     };
 
-    const handleResize = isIOS ? handleResizeForIos : handleResizeForAndroid;
+    window.visualViewport?.addEventListener("resize", handleResize);
 
-    visualViewport?.addEventListener("resize", handleResize);
-
-    // クリーンアップ関数
     return () => {
-      visualViewport?.removeEventListener("resize", handleResize);
+      window.visualViewport?.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -49,7 +64,9 @@ function App() {
         }}
       />
       <p>viewport height: ${vh}</p>
-      <button className={styles.button}>sample button</button>
+      <button id="footer" className={styles.button}>
+        sample button
+      </button>
     </div>
   );
 }
