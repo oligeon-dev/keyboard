@@ -19,7 +19,7 @@ function App() {
     const handleResizeForAndroid = (event: Event) => {
       const viewport = event.target as VisualViewport;
       const viewportHeight = viewport.height;
-      const keyboardHeight = window.innerHeight - viewportHeight;
+      const keyboardHeight = screen.availHeight - viewportHeight;
       const bottomValue = keyboardHeight === 0 ? "" : `${keyboardHeight}px`;
       (button as HTMLElement).style.bottom = bottomValue;
     };
